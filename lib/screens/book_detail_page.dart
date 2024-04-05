@@ -4,7 +4,7 @@ import 'package:book_shelf/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart' as url;
+
 
 class BookDetailsPage extends StatelessWidget {
   const BookDetailsPage({Key? key, required this.book, this.fav})
@@ -14,7 +14,6 @@ class BookDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Publish date Format
     String dateString = book.publishedDate!;
     String date;
     if (dateString.length == 4) {

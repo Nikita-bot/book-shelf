@@ -10,11 +10,11 @@ import '../model/google_books.dart';
 
 class GoogleBooksService {
 
-  Future<List<Book>> getBooks(String url, String index, String max) async {
+  Future<List<Book>> getBooks(String url) async {
     final uri = Uri.https('books.googleapis.com', '/books/v1/volumes', {
       'q': 'intitle:' + url + '|inauthor:' + url,
-      'startIndex': index,
-      'maxResults': max,
+      'startIndex': "0",
+      'maxResults': "40",
       'fields=': 'totalItems,items(volumeInfo(title,publisher,authors,categories,'
           'description,publishedDate,infoLink,averageRating,imageLinks/smallThumbnail,'
           'industryIdentifiers(identifier,type),ratingsCount,pageCount),accessInfo/embeddable)'

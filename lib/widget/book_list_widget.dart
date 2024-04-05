@@ -1,7 +1,6 @@
 import 'package:book_shelf/model/book.dart';
 import 'package:flutter/material.dart';
 
-
 class BookListWidget extends StatelessWidget {
   const BookListWidget({super.key, required this.book});
 
@@ -40,18 +39,17 @@ class CustomListTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       child: Card(
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         elevation: 5,
-        child: SizedBox(
+        child: Container(
           height: 150,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               Padding(
-                padding:
-                const EdgeInsets.only(left: 8.0, top: 0.0, bottom: 8.0),
-                child: SizedBox(
+                padding: const EdgeInsets.only(left: 8.0, top: 0.0, bottom: 8.0),
+                child: Container(
                   width: 100,
                   height: 150,
                   child: ClipRRect(
@@ -84,8 +82,6 @@ class CustomListTile extends StatelessWidget {
                       ),
                       Text(
                         title ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

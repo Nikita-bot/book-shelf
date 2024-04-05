@@ -6,25 +6,24 @@
   class GoogleBooksProvider with ChangeNotifier {
     GoogleBooksService? googleBooksService;
 
-    // ignore: prefer_final_fields
     List<Book> _item = [];
     List<Book> get bookItem => _item;
-    int _index = 0;
 
     bool _isLoading = true;
     bool get isLoading => _isLoading;
 
     GoogleBooksProvider(String url) {
       googleBooksService = GoogleBooksService();
-      getResults(url, _index, 10);
+      getResults(url);
     }
 
-    void getResults(String url, int index, int max) async {
+    void getResults(String url) async {
+      // Если отправить пустую строку, то ничего не найдет, поэтому если ничего не введено, заменяю на пробел
+      url = url == "" ? " ":url;
       setLoading(true);
       List<Book> result = await googleBooksService!
-          .getBooks(url, _index.toString(), max.toString());
-      _item.addAll(result);
-      indexIncrement();
+          .getBooks(url);
+      _item = result;
       setLoading(false);
     }
 
@@ -33,7 +32,4 @@
       notifyListeners();
     }
 
-    void indexIncrement() {
-      _index += 10;
-    }
   }

@@ -1,7 +1,6 @@
 import 'package:book_shelf/screens/book_detail_page.dart';
 import 'package:book_shelf/screens/book_finder_page.dart';
 import 'package:book_shelf/service/google_books_provider.dart';
-import 'package:book_shelf/screens/search_results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,12 +54,6 @@ Widget _buildRoute({
       final _fav = map['fav'];
 
       return BookDetailsPage(book: _book, fav: _fav);
-
-    case '/results':
-      final map = arguments as Map<String, dynamic>;
-      final query = map['query'];
-
-      return SearchResultsPage(query: query);
 
     default:
       return Container();

@@ -4,12 +4,13 @@ import 'package:book_shelf/model/book.dart';
 import 'package:book_shelf/service/google_books_provider.dart';
 import 'package:book_shelf/widget/book_list_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../utils/spacer.dart';
 
+
+//Виджет остается Statefull, чтобы был доступ к глобальному контексту
 class BookFinderPage extends StatefulWidget {
   const BookFinderPage({Key? key}) : super(key: key);
 
@@ -20,6 +21,7 @@ class BookFinderPage extends StatefulWidget {
 class _BookFinderPageState extends State<BookFinderPage> {
   final textController = TextEditingController();
   Timer? searchOnStoppedTyping;
+  final ScrollController _sc = ScrollController();
 
   void _onChangeHandler(String value) {
     const duration = Duration(milliseconds: 500);
@@ -29,16 +31,20 @@ class _BookFinderPageState extends State<BookFinderPage> {
     searchOnStoppedTyping = Timer(duration, () => _search(value));
   }
 
+  //Переписал функцию, теперь она работает только с провайдером
   void _search(String value) {
+
     final googleBooksProvider = context.read<GoogleBooksProvider>();
-    googleBooksProvider.getResults(value, 5, 10);
+    googleBooksProvider.getResults(value);
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
+        controller: _sc,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -65,6 +71,8 @@ class _BookFinderPageState extends State<BookFinderPage> {
               ),
             ),
             const VerticalSpace(h: 10),
+            //Переписал виджет, теперь он в зависимости от состояния показывает экран загрузки
+            //Или экран с книгами
             SizedBox(
               child: Consumer<GoogleBooksProvider>(
                 builder: (context, gBookProvider, _) {
@@ -106,8 +114,10 @@ class _BookFinderPageState extends State<BookFinderPage> {
     );
   }
 
+  //Экран с книгами генерируется на основе данных из провайдера
   Widget _buildListView(List<Book> books) {
     return ListView.builder(
+      controller: _sc,
       shrinkWrap: true,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
